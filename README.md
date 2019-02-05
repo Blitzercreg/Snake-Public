@@ -1,6 +1,5 @@
 # Snake-Public
 Snake
-Current Ver 1.2
 
-As of now, the snake is created, can move automatically, be told which direction to move to and has a tail. Snake now
-cannot crawl back into itself.
+As of now, the snake is created, can move automatically, be told which direction to move to, has a tail, gains a point from every blue 
+square hit, extends tail and the core is displayed. Snake now cannot crawl back into itself.
