@@ -85,6 +85,7 @@ while True:
 		draw_rectangle(screen, 50, 50, (128, 128, 128))
 		start = False
 
+#HEAD RUNNING INTO TAIL
 	if start == False and len(squares) > 10:
 		if snake_x == squares[0] and snake_y == squares[1]\
 		or snake_x == squares[2] and snake_y == squares[3]\
