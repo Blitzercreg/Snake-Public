@@ -1,9 +1,10 @@
 import pygame
 import time
 import sys
+import random
 
 pygame.init()
-screen = pygame.display.set_mode((499,499))
+screen = pygame.display.set_mode((499,520))
 
 def draw_rectangle(surf, x, y, color):
 	pygame.draw.rect(screen, color, (x*5, y*5, 4, 4))
@@ -14,6 +15,8 @@ for x in range(100):
 snake_x = 50
 snake_y = 50
 draw_rectangle(screen, snake_x, snake_y, (0, 255, 0))
+
+
 
 pygame.display.flip()
 
@@ -26,27 +29,54 @@ up = True
 down = False
 left = False
 right = False
+tail = 20
+blue = True
+score = 0
+
+myfont = pygame.font.SysFont("Comic Sans MS", 15)
+score_text = myfont.render("Score: ", 1, (255, 255, 255))
+screen.blit(score_text, (0, 499))
 
 while True:
-	clock.tick(4)
+	clock.tick(20)
 	snake_y += snake_y_diff
 	if snake_y < 0:
-		snake_y = 0
+		#snake_y = 0
+		sys.exit()
 	if snake_y > 99:
-		snake_y = 99
+		#snake_y = 99
+		sys.exit()
 	snake_x += snake_x_diff
 	if snake_x < 0:
-		snake_x = 0
+		#snake_x = 0
+		sys.exit()
 	if snake_x > 99:
-		snake_x = 99
+		#snake_x = 99
+		sys.exit()
 		
 	draw_rectangle(screen, snake_x, snake_y, (0, 255, 0))
-
+	
+#BLUE SQUARE
+	if blue == True:
+		blue_y = random.randrange(0,99)
+		blue_x = random.randrange(0,99)
+		draw_rectangle(screen, blue_x, blue_y, (0, 0, 255))
+		blue = False
+		
+	if snake_x == blue_x and snake_y == blue_y:
+		score += 1
+		score_add = myfont.render(str(score), 1, (255, 255, 255))
+		screen.blit(score_add, (50, 499))
+		tail += 4
+		print (score)
+		blue = True
+		
+		
+#SNAKE TAIL
 	squares.append(snake_x)
 	squares.append(snake_y)
-	print(squares)
-	
-	if len(squares) > 10:
+	#print(squares)
+	if len(squares) > tail:
 			draw_rectangle(screen, squares[0], squares[1], (128, 128, 128))
 			squares.pop(0)
 			squares.pop(0)
@@ -92,4 +122,6 @@ while True:
 				down = False
 				left = False
 				right = False
+				
+	
 	pygame.event.clear() 
