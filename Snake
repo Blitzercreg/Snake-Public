@@ -64,6 +64,7 @@ while True:
 		blue = False
 		
 	if snake_x == blue_x and snake_y == blue_y:
+		screen.fill(pygame.Color("black"), (50, 499, 110, 40))
 		score += 1
 		score_add = myfont.render(str(score), 1, (255, 255, 255))
 		screen.blit(score_add, (50, 499))
