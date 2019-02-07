@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((499,520))
 
 def draw_rectangle(surf, x, y, color):
 	pygame.draw.rect(screen, color, (x*5, y*5, 4, 4))
-
+	
 for x in range(100):
 	for y in range(100):
 		draw_rectangle(screen, x, y, (128, 128, 128))
@@ -30,27 +30,32 @@ right = False
 tail = 20
 blue = True
 score = 0
+fail = False
 
 myfont = pygame.font.SysFont("Comic Sans MS", 15)
 score_text = myfont.render("Score:", 1, (255, 255, 255))
 screen.blit(score_text, (0, 499))
+
+lose_font = pygame.font.SysFont("Comic Sans MS", 50)
+
+
 
 while True:
 	clock.tick(20)
 	snake_y += snake_y_diff
 	if snake_y < 0:
 		#snake_y = 0
-		sys.exit()
+		fail = True
 	if snake_y > 99:
 		#snake_y = 99
-		sys.exit()
+		fail = True
 	snake_x += snake_x_diff
 	if snake_x < 0:
 		#snake_x = 0
-		sys.exit()
+		fail = True
 	if snake_x > 99:
 		#snake_x = 99
-		sys.exit()
+		fail = True
 	
 	draw_rectangle(screen, snake_x, snake_y, (0, 255, 0))
 	
@@ -74,9 +79,21 @@ while True:
 		blue = True
 		print(score)
 		
+#LOSE
+	if fail == True:
+		for x in range(100):
+			for y in range(100):
+				draw_rectangle(screen, x, y, (255, 0, 0))
+		screen.fill(pygame.Color("black"), (0, 499, 200, 40))
+		lose_text = lose_font.render('YOU LOSE', 1, (0, 0, 0))
+		screen.blit(lose_text, (120, 100))
+		score_final = lose_font.render('FINAL SCORE: ' + str(score), 1, (255, 255, 255))
+		screen.blit(score_final, (50, 200))
+		
 #SNAKE TAIL
-	squares.append(snake_x)
-	squares.append(snake_y)
+	if fail == False:
+		squares.append(snake_x)
+		squares.append(snake_y)
 	if len(squares) > tail:
 			draw_rectangle(screen, squares[0], squares[1], (128, 128, 128))
 			squares.pop(0)
@@ -85,14 +102,13 @@ while True:
 		draw_rectangle(screen, 50, 50, (128, 128, 128))
 		start = False
 
-#HEAD RUNNING INTO TAIL
 	if start == False and len(squares) > 10:
 		if snake_x == squares[0] and snake_y == squares[1]\
 		or snake_x == squares[2] and snake_y == squares[3]\
 		or snake_x == squares[4] and snake_y == squares[5]\
 		or snake_x == squares[6] and snake_y == squares[7]\
 		or snake_x == squares[8] and snake_y == squares[9]:
-			sys.exit()
+			fail = True
 			
 	pygame.display.flip()
 	events = pygame.event.get()
