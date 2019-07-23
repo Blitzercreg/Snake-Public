@@ -2,6 +2,7 @@ import pygame
 import time
 import sys
 import random
+import array
 
 pygame.init()
 screen = pygame.display.set_mode((499,520))
@@ -29,6 +30,13 @@ left = False
 right = False
 tail = 20
 blue = True
+blue_array_x = []
+blue_array_y = []
+blue_count = 0
+purple = False
+purple_array_x = []
+purple_array_y = []
+purple_count = 0
 score = 0
 lose = False
 game_spd = 20
@@ -53,27 +61,74 @@ while True:
 	if snake_x > 99:
 		lose = True
 	
-#SCORE
 	if start == True:
 		score_add = myfont.render(str(score), 1, (255, 255, 255))
 		screen.blit(score_add, (50, 499))
 		
-	if blue == True:
-		blue_y = random.randrange(0,99)
-		blue_x = random.randrange(0,99)
-		draw_rectangle(screen, blue_x, blue_y, (0, 0, 255))
-		blue = False
+#BLUE SQUARES		
+	while blue_count < 5:
+		if blue == True:
+			blue_y = random.randrange(0,99)
+			blue_array_y.append(blue_y)
+			print (blue_array_y)
+			blue_x = random.randrange(0,99)
+			blue_array_x.append(blue_x)
+			print (blue_array_x)
+			blue_count += 1
+			draw_rectangle(screen, blue_x, blue_y, (0, 0, 255))
+	else:		
+		blue == False
 		
-	if snake_x == blue_x and snake_y == blue_y:
-		game_spd += 2
-		score += 1
-		tail += 4
-		screen.fill(pygame.Color("black"), (50, 499, 110, 40))
-		score_add = myfont.render(str(score), 1, (255, 255, 255))
-		screen.blit(score_add, (50, 499))
-		blue = True
-		print(score)
-		
+	if snake_x == blue_array_x[0] and snake_y == blue_array_y[0]\
+		or snake_x == blue_array_x[1] and snake_y == blue_array_y[1]\
+		or snake_x == blue_array_x[2] and snake_y == blue_array_y[2]\
+		or snake_x == blue_array_x[3] and snake_y == blue_array_y[3]\
+		or snake_x == blue_array_x[4] and snake_y == blue_array_y[4]:
+			game_spd += 2
+			score += 1
+			tail += 4
+			blue_count -= 1
+			screen.fill(pygame.Color("black"), (50, 499, 110, 40))
+			score_add = myfont.render(str(score), 1, (255, 255, 255))
+			screen.blit(score_add, (50, 499))
+			blue_array_x.remove(snake_x)
+			blue_array_y.remove(snake_y)
+			blue = True
+			print(score)
+			print (blue_count)
+	
+#PURPLE SQUARES
+	if score > 4:
+		purple = True
+
+	while purple_count < 3:
+		if purple == True:
+			purple_y = random.randrange(0,99)
+			purple_array_y.append(purple_y)
+			purple_x = random.randrange(0,99)
+			purple_array_x.append(purple_x)
+			purple_count += 1
+			draw_rectangle(screen, purple_x, purple_y, (95, 0, 149))
+		else:
+			break
+	else:
+		purple = False
+	
+		if snake_x == purple_array_x[0] and snake_y == purple_array_y[0]\
+			or snake_x == purple_array_x[1] and snake_y == purple_array_y[1]\
+			or snake_x == purple_array_x[2] and snake_y == purple_array_y[2]:
+			game_spd += 4
+			score += 3
+			tail += 4
+			purple_count -= 1
+			screen.fill(pygame.Color("black"), (50, 499, 110, 40))
+			score_add = myfont.render(str(score), 1, (255, 255, 255))
+			screen.blit(score_add, (50, 499))
+			purple_array_x.remove(snake_x)
+			purple_array_y.remove(snake_y)
+			purple = True
+			print (score)
+			print (purple_count)
 #LOSE
 	if lose == True:
 		for x in range(100):
