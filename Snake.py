@@ -40,6 +40,12 @@ purple_count = 0
 enemy = False
 enemy_array_x = []
 enemy_array_y = []
+enemy_x_amount = 0
+enemy_y_amount = 0
+enemy_up = True
+enemy_down = False
+enemy_right = False
+enemy_left = False
 enemy_count = 0
 score = 0
 lose = False
@@ -73,10 +79,6 @@ while True:
 		if blue == True:
 			blue_y = random.randrange(0,99)
 			blue_x = random.randrange(0,99)
-			if start == True:
-				if blue_y == snake_y and blue_x == snake_x:
-					blue_y = random.randrange(0,99)
-					blue_x = random.randrange(0,99)
 			blue_array_y.append(blue_y)
 			blue_array_x.append(blue_x)
 			blue_count += 1
@@ -146,7 +148,43 @@ while True:
 	else:	
 		if snake_x == enemy_array_x[0] and snake_y == enemy_array_y[0]:
 			lose = True
-
+#ENEMY MOVEMENT
+	if enemy_count == 1:
+		if enemy_up == True:
+			if enemy_y_amount == -3:
+				enemy_up = False
+				enemy_right = True
+			else:
+				enemy_y -= 1
+				enemy_y_amount -= 1
+				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				
+		elif enemy_right == True:
+			if enemy_x_amount == 3:
+				enemy_right = False
+				enemy_down = True
+			else:
+				enemy_x += 1
+				enemy_x_amount += 1
+				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				
+		elif enemy_down == True:
+			if enemy_y_amount == 0:
+				enemy_down = False
+				enemy_left = True
+			else:
+				enemy_y += 1
+				enemy_y_amount += 1
+				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				
+		elif enemy_left == True:
+			if enemy_x_amount == 0:
+				enemy_left = False
+				enemy_up = True
+			else:
+				enemy_x -= 1
+				enemy_x_amount -= 1
+				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
 #LOSE
 	if lose == True:
 		for x in range(100):
