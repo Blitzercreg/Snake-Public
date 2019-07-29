@@ -6,6 +6,71 @@ import random
 pygame.init()
 screen = pygame.display.set_mode((499,520))
 
+
+class Enemy():
+	#Enemy object
+	
+	def move_up(self):
+		global enemy_x
+		global enemy_y
+		global enemy_x_amount
+		global enemy_y_amount
+		global enemy_head
+		enemy_array_x.append(enemy_x)
+		enemy_array_y.append(enemy_y)
+		enemy_y -= 1
+		enemy_y_amount -= 1
+		draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+		enemy_head += 1
+		
+	def move_right(self):
+		global enemy_x
+		global enemy_y
+		global enemy_x_amount
+		global enemy_y_amount
+		global enemy_head
+		enemy_array_x.append(enemy_x)
+		enemy_array_y.append(enemy_y)
+		enemy_x += 1
+		enemy_x_amount += 1
+		draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+		enemy_head += 1
+		
+	def move_down(self):
+		global enemy_x
+		global enemy_y
+		global enemy_x_amount
+		global enemy_y_amount
+		global enemy_head
+		enemy_array_x.append(enemy_x)
+		enemy_array_y.append(enemy_y)
+		enemy_y += 1
+		enemy_y_amount += 1
+		draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+		enemy_head += 1
+		
+	def move_left(self):
+		global enemy_x
+		global enemy_y
+		global enemy_x_amount
+		global enemy_y_amount
+		global enemy_head		
+		enemy_array_x.append(enemy_x)
+		enemy_array_y.append(enemy_y)
+		enemy_x -= 1
+		enemy_x_amount -= 1
+		draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+		enemy_head += 1
+		
+		
+class ScreenSettings():
+	#Redraw screen on needed instances
+	
+	def score_draw(self):
+		screen.fill(pygame.Color("black"), (50, 499, 110, 40))
+		score_add = myfont.render(str(score), 1, (255, 255, 255))
+		screen.blit(score_add, (50, 499))
+
 def draw_rectangle(surf, x, y, color):
 	pygame.draw.rect(screen, color, (x*5, y*5, 4, 4))
 	
@@ -19,6 +84,8 @@ draw_rectangle(screen, snake_x, snake_y, (0, 255, 0))
 pygame.display.flip()
 
 clock = pygame.time.Clock()
+enemy_class = Enemy()
+ss = ScreenSettings()
 snake_x_diff = 0
 snake_y_diff = -1
 squares = []
@@ -94,9 +161,7 @@ while True:
 				snake_color += 10
 				tail += 4
 				blue_count -= 1
-				screen.fill(pygame.Color("black"), (50, 499, 110, 40))
-				score_add = myfont.render(str(score), 1, (255, 255, 255))
-				screen.blit(score_add, (50, 499))
+				ss.score_draw()
 				blue_array_x.remove(snake_x)
 				blue_array_y.remove(snake_y)
 				blue = True
@@ -125,9 +190,7 @@ while True:
 				snake_color += 30
 				tail += 4
 				purple_count -= 1
-				screen.fill(pygame.Color("black"), (50, 499, 110, 40))
-				score_add = myfont.render(str(score), 1, (255, 255, 255))
-				screen.blit(score_add, (50, 499))
+				ss.score_draw()
 				purple_array_x.remove(snake_x)
 				purple_array_y.remove(snake_y)
 				purple = True
@@ -157,56 +220,58 @@ while True:
 				enemy_up = False
 				enemy_right = True
 			else:
-				enemy_array_x.append(enemy_x)
-				enemy_array_y.append(enemy_y)
-				enemy_y -= 1
-				enemy_y_amount -= 1
-				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
-				enemy_head += 1
+				enemy_class.move_up()
+				#enemy_array_x.append(enemy_x)
+				#enemy_array_y.append(enemy_y)
+				#enemy_y -= 1
+				#enemy_y_amount -= 1
+				#draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				#enemy_head += 1
 				
 		elif enemy_right == True:
 			if enemy_x_amount == 3:
 				enemy_right = False
 				enemy_down = True
 			else:
-				enemy_array_x.append(enemy_x)
-				enemy_array_y.append(enemy_y)
-				enemy_x += 1
-				enemy_x_amount += 1
-				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
-				enemy_head += 1
+				enemy_class.move_right()
+				#enemy_array_x.append(enemy_x)
+				#enemy_array_y.append(enemy_y)
+				#enemy_x += 1
+				#enemy_x_amount += 1
+				#draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				#enemy_head += 1
 				
 		elif enemy_down == True:
 			if enemy_y_amount == 0:
 				enemy_down = False
 				enemy_left = True
 			else:
-				enemy_array_x.append(enemy_x)
-				enemy_array_y.append(enemy_y)
-				enemy_y += 1
-				enemy_y_amount += 1
-				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
-				enemy_head += 1
+				enemy_class.move_down()
+				#enemy_array_x.append(enemy_x)
+				#enemy_array_y.append(enemy_y)
+				#enemy_y += 1
+				#enemy_y_amount += 1
+				#draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				#enemy_head += 1
 				
 		elif enemy_left == True:
 			if enemy_x_amount == 0:
 				enemy_left = False
 				enemy_up = True
 			else:
-				enemy_array_x.append(enemy_x)
-				enemy_array_y.append(enemy_y)
-				enemy_x -= 1
-				enemy_x_amount -= 1
-				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
-				enemy_head += 1
+				enemy_class.move_left()
+				#enemy_array_x.append(enemy_x)
+				#enemy_array_y.append(enemy_y)
+				#enemy_x -= 1
+				#enemy_x_amount -= 1
+				#draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				#enemy_head += 1
 				
 		if enemy_head == 4:
 			draw_rectangle(screen, enemy_array_x[0], enemy_array_y[0], (125, 125, 125))
 			enemy_head = 3
 			del enemy_array_x[:1]
 			del enemy_array_y[:1]
-			print (enemy_array_x)
-			print (enemy_array_y)
 		
 #LOSE
 	if lose == True:
