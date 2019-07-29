@@ -47,6 +47,7 @@ enemy_down = False
 enemy_right = False
 enemy_left = False
 enemy_count = 0
+enemy_head = 0
 score = 0
 lose = False
 game_spd = 20
@@ -146,8 +147,9 @@ while True:
 		else:
 			break
 	else:	
-		if snake_x == enemy_array_x[0] and snake_y == enemy_array_y[0]:
+		if snake_x in enemy_array_x and snake_y in enemy_array_y:
 			lose = True
+			
 #ENEMY MOVEMENT
 	if enemy_count == 1:
 		if enemy_up == True:
@@ -155,36 +157,57 @@ while True:
 				enemy_up = False
 				enemy_right = True
 			else:
+				enemy_array_x.append(enemy_x)
+				enemy_array_y.append(enemy_y)
 				enemy_y -= 1
 				enemy_y_amount -= 1
 				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				enemy_head += 1
 				
 		elif enemy_right == True:
 			if enemy_x_amount == 3:
 				enemy_right = False
 				enemy_down = True
 			else:
+				enemy_array_x.append(enemy_x)
+				enemy_array_y.append(enemy_y)
 				enemy_x += 1
 				enemy_x_amount += 1
 				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				enemy_head += 1
 				
 		elif enemy_down == True:
 			if enemy_y_amount == 0:
 				enemy_down = False
 				enemy_left = True
 			else:
+				enemy_array_x.append(enemy_x)
+				enemy_array_y.append(enemy_y)
 				enemy_y += 1
 				enemy_y_amount += 1
 				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				enemy_head += 1
 				
 		elif enemy_left == True:
 			if enemy_x_amount == 0:
 				enemy_left = False
 				enemy_up = True
 			else:
+				enemy_array_x.append(enemy_x)
+				enemy_array_y.append(enemy_y)
 				enemy_x -= 1
 				enemy_x_amount -= 1
 				draw_rectangle(screen, enemy_x, enemy_y, (255, 0, 0))
+				enemy_head += 1
+				
+		if enemy_head == 4:
+			draw_rectangle(screen, enemy_array_x[0], enemy_array_y[0], (125, 125, 125))
+			enemy_head = 3
+			del enemy_array_x[:1]
+			del enemy_array_y[:1]
+			print (enemy_array_x)
+			print (enemy_array_y)
+		
 #LOSE
 	if lose == True:
 		for x in range(100):
